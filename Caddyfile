@@ -1,0 +1,29 @@
+{
+	admin off
+	auto_https off
+}
+
+# O Railway termina o HTTPS e encaminha para a porta em $PORT.
+:{$PORT:8080} {
+	root * /srv
+	encode zstd gzip
+	file_server
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options DENY
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+	# Imagens mudam pouco; HTML, CSS, JS e a lista de versões são revalidados a cada visita.
+	header /assets/*.png Cache-Control "public, max-age=604800"
+	header /assets/*.css Cache-Control "no-cache"
+	header /assets/*.js Cache-Control "no-cache"
+	header /data/* Cache-Control "no-cache"
+	header / Cache-Control "no-cache"
+
+	handle_errors {
+		redir * / 302
+	}
+}

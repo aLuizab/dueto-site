@@ -41,16 +41,28 @@ npx serve .        # ou simplesmente abra index.html
 
 ## Publicar
 
-`.github/workflows/pages.yml` publica no GitHub Pages a cada push na `main` e, antes, tenta ressincronizar as versões com o CHANGELOG do repositório `aLuizab/dueto` (se ele for privado, usa o `data/releases.js` versionado). Ative em *Settings → Pages → Source: GitHub Actions*.
+No ar em **https://dueto.aluiza.tech**, hospedado no Railway (projeto `dueto-site`).
+
+- O Railway faz o deploy automático a cada push na `main`. O `Dockerfile` serve os arquivos com Caddy na porta `$PORT`; os cabeçalhos e o cache estão no `Caddyfile`.
+- `.github/workflows/sync-releases.yml` roda todo dia (ou à mão: `gh workflow run sync-releases.yml`). Ele lê o `CHANGELOG.md` da `main` do `aLuizab/dueto` e, se houver versão nova, faz commit de `data/releases.js`, o que dispara o deploy.
+- DNS (Hostinger): `dueto` é um CNAME para o alvo que o Railway mostra em *Settings → Networking*, mais o TXT de verificação que ele pedir.
+
+Testar a imagem localmente:
+
+```bash
+docker build -t dueto-site . && docker run --rm -p 8080:8080 -e PORT=8080 dueto-site
+```
 
 ## Estrutura
 
 ```
 index.html              página
 assets/styles.css       estilo (claro/escuro automático)
-assets/app.js           preenche downloads e versões
+assets/app.js           preenche downloads, versões, números do repositório e comunidade
 data/releases.js        gerado do CHANGELOG — não editar à mão
 scripts/sync-releases.mjs
+scripts/downloads.mjs   downloads por versão (API do GitHub)
+Dockerfile, Caddyfile, railway.json   deploy no Railway
 ```
 
 A prévia do app no topo é HTML com valores fictícios. Não use screenshots com dados reais.

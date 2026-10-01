@@ -1,0 +1,29 @@
+name: Sincronizar versões
+
+# Lê o CHANGELOG.md do app e atualiza data/releases.js. Se mudou, faz commit na main,
+# e o Railway publica o site sozinho (deploy automático a cada push).
+on:
+  schedule:
+    - cron: "17 9 * * *" # todo dia, 06:17 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Baixar CHANGELOG do Dueto
+        run: curl -fsSL https://raw.githubusercontent.com/aLuizab/dueto/main/CHANGELOG.md -o /tmp/CHANGELOG.md
+      - run: node scripts/sync-releases.mjs /tmp/CHANGELOG.md
+      - name: Commit se mudou
+        run: |
+          git diff --quiet data/releases.js && { echo "Sem versões novas."; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Atualiza versões a partir do CHANGELOG do Dueto"
+          git push
