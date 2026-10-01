@@ -22,7 +22,8 @@ jobs:
         with: { node-version: 22 }
       - name: Baixar CHANGELOG do Dueto
         # sem cache da CDN do raw.githubusercontent.com logo após o push da versão
-        run: curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/aLuizab/dueto/main/CHANGELOG.md?t=$(date +%s)" -o /tmp/CHANGELOG.md
+        run: |
+          curl -fsSL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/aLuizab/dueto/main/CHANGELOG.md?t=$(date +%s)" -o /tmp/CHANGELOG.md
       - run: node scripts/sync-releases.mjs /tmp/CHANGELOG.md
       - name: Commit se mudou
         run: |
