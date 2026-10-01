@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dueto — finanças PF e PJ para devs, em código aberto</title>
+  <meta name="description" content="Dueto é um app de código aberto (MIT), desktop, offline e em português que organiza as finanças pessoais, da empresa (Simples Nacional, Fator R, pró-labore) e os investimentos num só lugar." />
+  <meta property="og:title" content="Dueto — finanças PF e PJ para devs" />
+  <meta property="og:description" content="Pessoal, empresa e investimentos num só lugar. Código aberto, desktop, offline, em português." />
+  <meta property="og:image" content="assets/icon.png" />
+  <meta name="theme-color" content="#123f50" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="gh" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></symbol></svg>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#">
+        <img src="assets/icon.png" alt="" width="28" height="28" />
+        <span>Dueto</span>
+      </a>
+      <nav class="nav">
+        <a href="#recursos">Recursos</a>
+        <a href="#codigo-aberto">Código aberto</a>
+        <a href="#versoes">Versões</a>
+        <a href="#comunidade">Comunidade</a>
+        <a class="gh-pill" data-repo-link="repo" href="#" aria-label="Dueto no GitHub">
+          <svg class="gh-mark" viewBox="0 0 16 16" aria-hidden="true"><use href="#gh" /></svg>
+          <span>GitHub</span><span class="gh-count" data-stat="stars" hidden></span>
+        </a>
+        <a class="btn btn-sm" href="#baixar">Baixar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot"></span> Código aberto <span class="sep">·</span> MIT <span class="sep">·</span> v<span data-latest-version>—</span></p>
+          <h1>Suas finanças pessoais e da empresa, <em>em dueto.</em></h1>
+          <p class="lede">Um app desktop, offline e em português para quem é dev PJ: o orçamento do casal, o Simples Nacional com Fator R, o pró-labore e os investimentos, tudo num livro só.</p>
+          <div class="cta">
+            <a class="btn btn-lg" data-download="setup" href="#baixar">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16" /></svg>
+              Baixar para Windows
+            </a>
+            <a class="btn btn-lg btn-ghost" data-repo-link="repo" href="#">
+              <svg class="gh-mark" viewBox="0 0 16 16" aria-hidden="true"><use href="#gh" /></svg>
+              Ver o código
+            </a>
+          </div>
+          <p class="fineprint">Windows 10/11 · 64 bits · gratuito para sempre · <a href="#versoes">notas da versão <span data-latest-version>—</span></a></p>
+        </div>
+
+        <!-- Prévia do app com dados fictícios -->
+        <figure class="preview" aria-label="Prévia da tela Visão geral do Dueto, com valores fictícios">
+          <div class="win">
+            <div class="win-bar"><i></i><i></i><i></i><span>Dueto — Visão geral</span></div>
+            <div class="win-body">
+              <aside class="win-side">
+                <b class="on">Visão geral</b><b>Pessoal</b><b>Empresa</b><b>Impostos</b><b>Investimentos</b>
+              </aside>
+              <div class="win-main">
+                <div class="win-head">
+                  <strong>Setembro de 2026</strong>
+                  <span class="chip">Anexo III</span>
+                </div>
+                <div class="kpis">
+                  <div><small>Saldo pessoal</small><span class="pos">R$ 8.412,90</span></div>
+                  <div><small>Receita PJ</small><span>R$ 24.300,00</span></div>
+                  <div><small>Fator R</small><span class="accent">28,4%</span></div>
+                  <div><small>DAS do mês</small><span>R$ 1.458,00</span></div>
+                </div>
+                <div class="chart">
+                  <svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true">
+                    <g class="grid"><line x1="0" y1="20" x2="300" y2="20"/><line x1="0" y1="55" x2="300" y2="55"/><line x1="0" y1="90" x2="300" y2="90"/></g>
+                    <g class="bars-a">
+                      <rect x="14" y="52" width="16" height="38"/><rect x="62" y="44" width="16" height="46"/><rect x="110" y="48" width="16" height="42"/>
+                      <rect x="158" y="34" width="16" height="56"/><rect x="206" y="30" width="16" height="60"/><rect x="254" y="22" width="16" height="68"/>
+                    </g>
+                    <g class="bars-b">
+                      <rect x="32" y="62" width="16" height="28"/><rect x="80" y="58" width="16" height="32"/><rect x="128" y="60" width="16" height="30"/>
+                      <rect x="176" y="54" width="16" height="36"/><rect x="224" y="56" width="16" height="34"/><rect x="272" y="50" width="16" height="40"/>
+                    </g>
+                    <polyline class="line" points="22,70 70,62 118,66 166,50 214,44 262,34" />
+                  </svg>
+                  <div class="legend"><span class="la">Receitas</span><span class="lb">Despesas</span><span class="ll">Caixa</span></div>
+                </div>
+                <ul class="ledger">
+                  <li><span>20/10</span>DAS — Simples Nacional<b>R$ 1.458,00</b></li>
+                  <li><span>20/10</span>DARF pró-labore<b>R$ 1.012,35</b></li>
+                  <li><span>05/10</span>Aluguel<b>R$ 3.200,00</b></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <figcaption>Valores ilustrativos.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Faixa de números -->
+    <section class="strip">
+      <div class="wrap strip-grid">
+        <div><strong>MIT</strong><span>código aberto: leia, audite, modifique</span></div>
+        <div><strong>R$ 0</strong><span>sem assinatura, sem plano pago, sem anúncio</span></div>
+        <div><strong>0</strong><span>servidores: seus dados ficam no seu computador</span></div>
+        <div><strong>3</strong><span>livros num só app: pessoal, empresa e investimentos</span></div>
+      </div>
+    </section>
+
+    <!-- Recursos -->
+    <section id="recursos" class="section">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Recursos</p>
+          <h2>Um app, três livros-caixa.</h2>
+          <p>O Dueto separa o que é da casa e o que é da empresa, e mostra onde os dois se encontram: o pró-labore, a retirada de lucros, o aporte do mês.</p>
+        </header>
+
+        <div class="features">
+          <article class="feature">
+            <span class="num">01</span>
+            <h3>Pessoal</h3>
+            <p>Orçamento a dois, com contas compartilhadas e individuais.</p>
+            <ul>
+              <li>Quem paga o quê: proporcional, 50/50 ou manual</li>
+              <li>Metas por categoria e objetivos com aporte sugerido</li>
+              <li>Cartões, parcelas e recorrências</li>
+              <li>Importação de extratos CSV e OFX que aprende com você</li>
+            </ul>
+          </article>
+          <article class="feature">
+            <span class="num">02</span>
+            <h3>Empresa (PJ)</h3>
+            <p>Para quem fatura em dólar para o exterior pelo Simples Nacional.</p>
+            <ul>
+              <li>Fator R conforme a Res. CGSN 140/2018, com simulador de pró-labore</li>
+              <li>Anexos III e V, RBT12 e partilha por tributo</li>
+              <li>Pró-labore com INSS e IRRF, DRE e balanço projetado</li>
+              <li>Calendário de obrigações e pacote para o contador</li>
+            </ul>
+          </article>
+          <article class="feature">
+            <span class="num">03</span>
+            <h3>Investimentos</h3>
+            <p>Saldos e aportes de cada produto, por pessoa e instituição.</p>
+            <ul>
+              <li>Variação e rentabilidade mês a mês</li>
+              <li>Aportes ligados às saídas do orçamento</li>
+              <li>Evolução do patrimônio e alocação</li>
+              <li>Exportação CSV/XLSX de qualquer tabela</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Código aberto -->
+    <section id="codigo-aberto" class="section section-open">
+      <div class="wrap">
+        <header class="section-head section-head-wide">
+          <p class="kicker">Código aberto</p>
+          <h2>Contas abertas, <em>código aberto.</em></h2>
+          <p>Um app que calcula seus impostos precisa mostrar como calcula. Cada fórmula do Dueto está no GitHub, com a norma citada e coberta por testes. Você pode conferir, corrigir e propor.</p>
+        </header>
+
+        <div class="open-grid">
+          <figure class="code-card">
+            <figcaption>
+              <span class="code-path">core/tax/simples.ts</span>
+              <a data-repo-link="simples" href="#">ver no GitHub ↗</a>
+            </figcaption>
+<pre><code><span class="c">/** Alíquota efetiva = (RBT12 × nominal − PD) / RBT12.
+ *  Para RBT12 = 0 usa a nominal da 1ª faixa. */</span>
+<span class="k">export function</span> <span class="f">aliquotaEfetiva</span>(
+  rbt12: <span class="t">number</span>,
+  faixa: <span class="t">SimplesFaixa</span>,
+): <span class="t">number</span> {
+  <span class="k">if</span> (rbt12 &lt;= <span class="n">0</span>) <span class="k">return</span> faixa.aliquotaNominal;
+  <span class="k">return</span> Math.max(<span class="n">0</span>, round4(
+    (rbt12 * faixa.aliquotaNominal - faixa.deduzir) / rbt12
+  ));
+}</code></pre>
+            <p class="code-foot">Trecho real do Simples Nacional, Anexos III e V.</p>
+          </figure>
+
+          <div class="principles">
+            <article>
+              <span class="num">i.</span>
+              <div>
+                <h3>Auditável</h3>
+                <p>Regras fiscais em <code>core/</code>, TypeScript puro, com testes contra guias reais do PGDAS-D e a memória de cálculo documentada.</p>
+              </div>
+            </article>
+            <article>
+              <span class="num">ii.</span>
+              <div>
+                <h3>Seu, de verdade</h3>
+                <p>Licença MIT. Use, modifique e redistribua. Se o projeto parar, o app e os seus dados continuam com você.</p>
+              </div>
+            </article>
+            <article>
+              <span class="num">iii.</span>
+              <div>
+                <h3>Feito em comunidade</h3>
+                <p>Sugestões viram issues públicas, melhorias chegam por pull request e cada versão fica registrada no histórico.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <dl class="stats" id="repo-stats" hidden>
+          <div><dt>Estrelas</dt><dd data-stat="stars">—</dd></div>
+          <div><dt>Forks</dt><dd data-stat="forks">—</dd></div>
+          <div><dt>Issues abertas</dt><dd data-stat="issues">—</dd></div>
+          <div><dt>Contribuidores</dt><dd data-stat="contributors">—</dd></div>
+        </dl>
+
+        <div class="open-cta">
+          <a class="btn" data-repo-link="repo" href="#"><svg class="gh-mark" viewBox="0 0 16 16" aria-hidden="true"><use href="#gh" /></svg> Dar uma estrela no GitHub</a>
+          <a class="link-quiet" href="#comunidade">Como contribuir →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacidade -->
+    <section id="privacidade" class="section section-ink">
+      <div class="wrap split">
+        <div>
+          <p class="kicker">Privacidade</p>
+          <h2>Seu dinheiro não sai do seu computador.</h2>
+          <p>Não há conta, nuvem ou rastreamento. Tudo fica num banco SQLite local, com backup diário em <code>.zip</code> que só começa depois do seu aceite. A internet só é usada se você pedir a cotação PTAX.</p>
+        </div>
+        <dl class="facts">
+          <div><dt>Armazenamento</dt><dd>SQLite local em <code>%APPDATA%\Dueto</code></dd></div>
+          <div><dt>Backup</dt><dd>Diário, em zip, com restauração em um clique</dd></div>
+          <div><dt>Conexão</dt><dd>Opcional, só para a cotação PTAX</dd></div>
+          <div><dt>Verificável</dt><dd>Código aberto: confira você mesmo o que o app faz</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section id="baixar" class="section">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Baixar</p>
+          <h2>Versão <span data-latest-version>—</span></h2>
+          <p>Escolha o instalador ou a versão portátil. Na primeira abertura, um assistente pergunta quem faz parte do orçamento e se há empresa.</p>
+        </header>
+
+        <div class="downloads">
+          <a class="dl dl-main" data-download="setup" href="#">
+            <div>
+              <h3>Instalador</h3>
+              <p>Cria atalhos e permite escolher a pasta. Recomendado.</p>
+            </div>
+            <code data-file="setup">Dueto-Setup.exe</code>
+          </a>
+          <a class="dl" data-download="portable" href="#">
+            <div>
+              <h3>Portátil</h3>
+              <p>Um único executável, sem instalação. Bom para pendrive.</p>
+            </div>
+            <code data-file="portable">Dueto-portable.exe</code>
+          </a>
+        </div>
+
+        <aside class="note">
+          <strong>O Windows pode avisar sobre o arquivo.</strong>
+          Os executáveis ainda não têm assinatura digital. Se aparecer "O Windows protegeu o computador", clique em <em>Mais informações → Executar assim mesmo</em>. Com o Controle Inteligente de Aplicativos ligado, o Windows pode bloquear o arquivo de vez.
+        </aside>
+
+        <p class="disclaimer">Os valores de impostos são estimativas. Confirme com seu contador antes de recolher.</p>
+      </div>
+    </section>
+
+    <!-- Versões -->
+    <section id="versoes" class="section section-paper">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Versões</p>
+          <h2>Histórico de versões</h2>
+          <p>Cada versão do Dueto e o que mudou nela. Também no <a data-repo-link="releases" href="#">GitHub Releases</a>.</p>
+        </header>
+        <ol class="releases" id="releases"></ol>
+      </div>
+    </section>
+
+    <!-- Comunidade -->
+    <section id="comunidade" class="section">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Comunidade</p>
+          <h2>Construa o Dueto <em>com a gente.</em></h2>
+          <p>Sugira o que falta no seu dia a dia ou mande o código que resolve. Toda contribuição é revisada em público.</p>
+        </header>
+
+        <div class="tabs" role="tablist" aria-label="Como participar">
+          <button role="tab" id="tab-recomendar" aria-controls="painel-recomendar" aria-selected="true">Recomendar</button>
+          <button role="tab" id="tab-contribuir" aria-controls="painel-contribuir" aria-selected="false" tabindex="-1">Contribuir com código</button>
+        </div>
+
+        <div class="panel" role="tabpanel" id="painel-recomendar" aria-labelledby="tab-recomendar">
+          <div class="split-panel">
+            <form class="suggest" id="sugestao">
+              <label>
+                <span>Área do app</span>
+                <select name="area">
+                  <option>Pessoal</option>
+                  <option>Empresa (PJ)</option>
+                  <option>Impostos</option>
+                  <option>Investimentos</option>
+                  <option>Importação</option>
+                  <option>Outra</option>
+                </select>
+              </label>
+              <label>
+                <span>Resumo da sugestão</span>
+                <input name="titulo" required maxlength="120" placeholder="Ex.: importar fatura do cartão em PDF" />
+              </label>
+              <label>
+                <span>Que problema isso resolve?</span>
+                <textarea name="problema" rows="3" placeholder="Hoje eu preciso… e perco tempo com…"></textarea>
+              </label>
+              <label>
+                <span>Como você imagina a solução? <small>(opcional)</small></span>
+                <textarea name="sugestao" rows="3"></textarea>
+              </label>
+              <div class="suggest-actions">
+                <button class="btn" type="submit">Enviar pelo GitHub</button>
+                <small>Abre uma issue já preenchida. Você precisa de uma conta no GitHub.</small>
+              </div>
+            </form>
+            <aside class="side-note">
+              <h3>Como as sugestões viram versão</h3>
+              <ol class="steps">
+                <li><b>Você sugere.</b> A sugestão vira uma issue pública com a etiqueta <code>sugestão</code>.</li>
+                <li><b>A comunidade vota.</b> Quem também quer reage com 👍. As mais votadas entram primeiro.</li>
+                <li><b>Entra numa versão.</b> Ela aparece no histórico acima quando for lançada.</li>
+              </ol>
+              <a class="link-quiet" data-repo-link="sugestoes" href="#">Ver sugestões abertas →</a>
+            </aside>
+          </div>
+        </div>
+
+        <div class="panel" role="tabpanel" id="painel-contribuir" aria-labelledby="tab-contribuir" hidden>
+          <div class="split-panel">
+            <ol class="steps steps-code">
+              <li>
+                <b>Faça um fork</b>
+                <p>Crie a sua cópia do repositório na sua conta do GitHub.</p>
+              </li>
+              <li>
+                <b>Clone e rode</b>
+                <pre><code>git clone https://github.com/<span class="ph">seu-usuario</span>/dueto.git
+cd dueto
+npm install
+npm run dev</code></pre>
+              </li>
+              <li>
+                <b>Crie um branch e teste</b>
+                <pre><code>git checkout -b minha-melhoria
+npm test</code></pre>
+                <p>Regras de negócio e cálculos fiscais ficam em <code>core/</code>, em TypeScript puro e com testes.</p>
+              </li>
+              <li>
+                <b>Abra o pull request</b>
+                <p>Descreva o que mudou e por quê. Se mexer em cálculo de imposto, cite a norma.</p>
+              </li>
+            </ol>
+            <aside class="side-note">
+              <h3>Comece por aqui</h3>
+              <div class="actions-col">
+                <a class="btn" data-repo-link="fork" href="#">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7v2a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V7M12 12v5"/></svg>
+                  Fazer fork
+                </a>
+                <a class="btn btn-ghost" data-repo-link="pr" href="#">Abrir pull request</a>
+              </div>
+              <ul class="links">
+                <li><a data-repo-link="contributing" href="#">Guia de contribuição</a></li>
+                <li><a data-repo-link="good-first" href="#">Issues boas para começar</a></li>
+                <li><a data-repo-link="repo" href="#">Código no GitHub</a></li>
+              </ul>
+              <p class="fineprint">Stack: Electron, React, TypeScript, Vite, SQLite (sql.js) e Vitest.</p>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#"><img src="assets/icon.png" alt="" width="26" height="26" /><span>Dueto</span></a>
+        <p>Organização financeira PF e PJ para devs. Software livre, feito em aberto.</p>
+      </div>
+      <nav aria-label="Produto">
+        <h4>Produto</h4>
+        <a href="#baixar">Baixar</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#versoes">Versões</a>
+        <a href="#privacidade">Privacidade</a>
+      </nav>
+      <nav aria-label="Código">
+        <h4>Código</h4>
+        <a data-repo-link="repo" href="#">Repositório</a>
+        <a data-repo-link="contributing" href="#">Como contribuir</a>
+        <a data-repo-link="license" href="#">Licença MIT</a>
+        <a data-repo-link="releases" href="#">Releases</a>
+      </nav>
+      <nav aria-label="Comunidade">
+        <h4>Comunidade</h4>
+        <a data-repo-link="sugestoes" href="#">Sugestões</a>
+        <a data-repo-link="good-first" href="#">Para começar</a>
+        <a data-repo-link="fork" href="#">Fazer fork</a>
+      </nav>
+    </div>
+    <div class="wrap footer-base">
+      <span>© 2026 Dueto contributors · Licença MIT</span>
+      <span>Valores de impostos são estimativas. Confirme com seu contador.</span>
+    </div>
+  </footer>
+
+  <script src="data/releases.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

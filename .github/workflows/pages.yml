@@ -1,0 +1,41 @@
+name: Publicar site (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      # Atualiza o histórico de versões a partir do CHANGELOG do app
+      - uses: actions/checkout@v4
+        with:
+          repository: aLuizab/dueto
+          path: _dueto
+          sparse-checkout: CHANGELOG.md
+          sparse-checkout-cone-mode: false
+        continue-on-error: true
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: test -f _dueto/CHANGELOG.md && node scripts/sync-releases.mjs _dueto/CHANGELOG.md || echo "CHANGELOG indisponível; usando data/releases.js do repositório"
+      - run: mkdir -p _site && cp -r index.html assets data _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: _site }
+      - id: deployment
+        uses: actions/deploy-pages@v4
