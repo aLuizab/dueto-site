@@ -62,7 +62,7 @@ assets/app.js           preenche downloads, versões, números do repositório e
 data/releases.js        gerado do CHANGELOG — não editar à mão
 scripts/sync-releases.mjs
 scripts/downloads.mjs   downloads por versão (API do GitHub)
-Dockerfile, Caddyfile, railway.json   deploy no Railway
+Dockerfile, Caddyfile   deploy no Railway (detectado automaticamente)
 ```
 
 A prévia do app no topo é HTML com valores fictícios. Não use screenshots com dados reais.
