@@ -1,8 +1,8 @@
-// Preenche downloads e histórico de versões a partir de data/releases.js.
+// Preenche downloads e histórico de versões (GitHub Releases ao vivo, com data/releases.js de reserva),
+// números do repositório e a seção Comunidade.
 (function () {
   const REPO = "https://github.com/aLuizab/dueto";
   const releases = window.DUETO_RELEASES || [];
-  const latest = releases[0];
 
   const files = (v) => ({
     setup: `Dueto-Setup-${v}.exe`,
@@ -114,48 +114,107 @@
     window.open(`${REPO}/issues/new?${params}`, "_blank", "noopener");
   });
 
-  if (!latest) return;
-
-  document.querySelectorAll("[data-latest-version]").forEach((el) => (el.textContent = latest.version));
-  document.querySelectorAll("[data-latest-date]").forEach((el) => (el.textContent = fmtDate(latest.date)));
-
-  const names = files(latest.version);
-  document.querySelectorAll("[data-download]").forEach((a) => {
-    a.href = assetUrl(latest.version, names[a.dataset.download]);
-  });
-  document.querySelectorAll("[data-file]").forEach((el) => (el.textContent = names[el.dataset.file]));
-
-  const list = document.getElementById("releases");
-  list.innerHTML = releases
-    .map((r, i) => {
-      const sections = r.sections
-        .map(
-          (s) => `
-          <div class="rel-section">
-            <h4 class="tag tag-${tone(s.title)}">${escape(s.title)}</h4>
-            <ul>${s.items.map((it) => `<li>${inline(it)}</li>`).join("")}</ul>
-          </div>`,
-        )
-        .join("");
-      const count = r.sections.reduce((n, s) => n + s.items.length, 0);
-      return `
-        <li class="release">
-          <details ${i === 0 ? "open" : ""}>
-            <summary>
-              <span class="rel-version">v${escape(r.version)}</span>
-              ${i === 0 ? '<span class="badge">Atual</span>' : ""}
-              <span class="rel-meta">${count} ${count === 1 ? "mudança" : "mudanças"}</span>
-              <time datetime="${r.date}">${fmtDate(r.date)}</time>
-            </summary>
-            <div class="rel-body">
-              ${sections}
-              <p class="rel-links">
-                <a href="${assetUrl(r.version, files(r.version).setup)}">Instalador ${escape(r.version)}</a>
-                <a href="${REPO}/releases/tag/v${r.version}">Ver no GitHub</a>
-              </p>
-            </div>
-          </details>
-        </li>`;
+  // Versões: desenha na hora a cópia de data/releases.js e troca pelas Releases do GitHub ao vivo.
+  render(releases);
+  fetch(`${API}/releases?per_page=30`)
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then((list) => {
+      const live = list.filter((r) => !r.draft && !r.prerelease).map(fromGitHub);
+      if (live.length) render(live);
     })
-    .join("");
+    .catch(() => {});
+
+  // Release do GitHub → { version, date, sections, files }; as notas seguem o formato do CHANGELOG.
+  function fromGitHub(r) {
+    const version = r.tag_name.replace(/^v/, "");
+    const find = (re) => r.assets.find((a) => re.test(a.name));
+    const setup = find(/^Dueto-Setup-.*\.exe$/i);
+    const portable = find(/portable.*\.exe$/i);
+    const notes = parseNotes(r.body || "");
+    const cached = releases.find((c) => c.version === version);
+    return {
+      version,
+      date: (r.published_at || r.created_at).slice(0, 10),
+      sections: notes.length ? notes : cached?.sections ?? [],
+      files: {
+        setup: setup && { name: setup.name, url: setup.browser_download_url },
+        portable: portable && { name: portable.name, url: portable.browser_download_url },
+      },
+    };
+  }
+
+  function parseNotes(md) {
+    const sections = [];
+    for (const line of md.split(/\r?\n/)) {
+      if (/^---\s*$/.test(line)) break; // rodapé das notas
+      const sub = line.match(/^###\s+(.+)/);
+      if (sub) sections.push({ title: sub[1].trim(), items: [] });
+      else if (/^[-*] /.test(line) && sections.length) sections[sections.length - 1].items.push(line.slice(2).trim());
+      else if (/^\s{2,}\S/.test(line) && sections.at(-1)?.items.length) sections.at(-1).items[sections.at(-1).items.length - 1] += " " + line.trim();
+    }
+    return sections.filter((s) => s.items.length);
+  }
+
+  // Arquivo de download: o que existe na Release ou, sem ela, o nome padrão do electron-builder.
+  function fileOf(r, kind) {
+    const f = r.files?.[kind];
+    if (f) return f;
+    if (r.files) return null; // Release ao vivo sem esse arquivo (ex.: v0.1.0 sem portátil)
+    const name = files(r.version)[kind];
+    return { name, url: assetUrl(r.version, name) };
+  }
+
+  function render(releases) {
+    const latest = releases[0];
+    if (!latest) return;
+
+    document.querySelectorAll("[data-latest-version]").forEach((el) => (el.textContent = latest.version));
+    document.querySelectorAll("[data-latest-date]").forEach((el) => (el.textContent = fmtDate(latest.date)));
+
+    document.querySelectorAll("[data-download]").forEach((a) => {
+      const f = fileOf(latest, a.dataset.download) ?? fileOf(latest, "setup");
+      if (f) a.href = f.url;
+    });
+    document.querySelectorAll("[data-file]").forEach((el) => {
+      const f = fileOf(latest, el.dataset.file);
+      if (f) el.textContent = f.name;
+    });
+
+    const list = document.getElementById("releases");
+    list.innerHTML = releases
+      .map((r, i) => {
+        const sections = r.sections
+          .map(
+            (s) => `
+            <div class="rel-section">
+              <h4 class="tag tag-${tone(s.title)}">${escape(s.title)}</h4>
+              <ul>${s.items.map((it) => `<li>${inline(it)}</li>`).join("")}</ul>
+            </div>`,
+          )
+          .join("");
+        const count = r.sections.reduce((n, s) => n + s.items.length, 0);
+        return `
+          <li class="release">
+            <details ${i === 0 ? "open" : ""}>
+              <summary>
+                <span class="rel-version">v${escape(r.version)}</span>
+                ${i === 0 ? '<span class="badge">Atual</span>' : ""}
+                <span class="rel-meta">${count} ${count === 1 ? "mudança" : "mudanças"}</span>
+                <time datetime="${r.date}">${fmtDate(r.date)}</time>
+              </summary>
+              <div class="rel-body">
+                ${sections}
+                <p class="rel-links">
+                  ${[["setup", "Instalador"], ["portable", "Portátil"]]
+                    .map(([k, label]) => fileOf(r, k) && `<a href="${fileOf(r, k).url}">${label} ${escape(r.version)}</a>`)
+                    .filter(Boolean)
+                    .join("")}
+                  <a href="${REPO}/releases/tag/v${escape(r.version)}">Ver no GitHub</a>
+                </p>
+              </div>
+            </details>
+          </li>`;
+      })
+      .join("");
+  }
 })();
